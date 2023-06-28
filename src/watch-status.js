@@ -71,6 +71,11 @@ clientUpdate = function(hostName, updatedProperties, properties) {
     mHelper.publish(host.topic, JSON.stringify(climate));
 }
 
+const Web = require('./web.js');
+const web = new Web.Web({climates});
+web.setup();
+
+
 setInterval(() => {
     var data = [];
     var hosts = climates.getHosts();
@@ -80,4 +85,4 @@ setInterval(() => {
         data.push(climate);
     });
     console.table(data);
-}, 20000);
+}, 30000);
