@@ -1,0 +1,16 @@
+{
+  "name": "highlandclimate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/watch-status.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gree-hvac-client": "^2.0.0",
+    "mqtt": "^4.3.7"
+  }
+}
