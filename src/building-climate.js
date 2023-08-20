@@ -54,7 +54,11 @@ class BuildingClimate {
     getRoom(host) {
         const wrappers = Object.values(this._store).filter(wrapper => {
             // console.log("wrapper.climate.host", wrapper.climate.host, "host", host);
-            return wrapper.climate.host == host;
+            if (wrapper.climate) {
+                return wrapper.climate.host == host;
+            } else {
+                return false;
+            }
         });
         const rooms = Object.values(wrappers).map(wrapper => wrapper.room);
         if (rooms.length == 0 ) {
