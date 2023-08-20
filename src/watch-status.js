@@ -1,28 +1,30 @@
 
 //const Gree = require ('../../src/client.js');
+require('source-map-support').install();
 const Gree = require ('gree-hvac-client');
-
 const BuildingClimate = require ('./building-climate.js');
-
+const WebClient = require('./web.js');
 const mqttHelper = require('./mqtt-helper.js');
+
 const mqttHost = 'localhost';
+// const mqttHost = '192.168.1.230';
 const url = 'mqtt://' + mqttHost + ':1883/mqtt';
 console.log("url", url);
 
 const climates = new BuildingClimate.BuildingClimate();
-climates.mapHostToRoom("10.0.0.2", "keith", "home/climate/keith");      // 2
-climates.mapHostToRoom("10.0.0.96", "living", "home/climate/living");   // 1
-climates.mapHostToRoom("10.0.0.103", "bedroom", "home/climate/bedroom");// 2
-climates.mapHostToRoom("10.0.0.143", "irina", "home/climate/irina");    // 2
-climates.mapHostToRoom("10.0.0.173", "dining", "home/climate/dining");  // 1
-climates.mapHostToRoom("10.0.0.198", "guest", "home/climate/guest");    // 2
-climates.mapHostToRoom("10.0.0.200", "attic", "home/climate/attic");    // 3
+climates.mapHostToRoom("192.168.1.50", "keith", "home/climate/keith");
+climates.mapHostToRoom("192.168.1.51", "guest", "home/climate/guest");
+climates.mapHostToRoom("192.168.1.52", "bedroom", "home/climate/bedroom");
+climates.mapHostToRoom("192.168.1.53", "dining", "home/climate/dining");
+climates.mapHostToRoom("192.168.1.54", "irina", "home/climate/irina");
+// climates.mapHostToRoom("192.168.1.58", "living", "home/climate/living"); //?
+climates.mapHostToRoom("192.168.1.64", "attic", "home/climate/attic"); //
 
 const hosts = climates.getHosts();
 
 const mHelper = new mqttHelper.MqttHelper({
     url: url,
-    debugTopics: ["home/climate/test1", "home/climate/test2"]
+    debugTopics: ["home/climate/living", "home/climate/dining"]
 });
 
 mHelper.connect();
@@ -65,24 +67,26 @@ clientUpdate = function(hostName, updatedProperties, properties) {
         temperature: properties.temperature,
         fanSpeed: properties.fanSpeed,
     };
-
+    // console.log("Update..", updatedProperties);
     climates.setClimate(hostName, climate);
     const host = climates.getHostData(hostName);
     mHelper.publish(host.topic, JSON.stringify(climate));
 }
 
-const Web = require('./web.js');
-const web = new Web.Web({climates});
+const web = new WebClient.Web({climates, clients});
 web.setup();
-
 
 setInterval(() => {
     var data = [];
     var hosts = climates.getHosts();
     hosts.map(host => {
         const climate = climates.getClimate(host);
-        climate.host = host;
+        if (climate) {
+            climate.host = host;
+        } else {
+            console.error("No climate for", host);
+        }
         data.push(climate);
     });
     console.table(data);
-}, 30000);
+}, 60000);

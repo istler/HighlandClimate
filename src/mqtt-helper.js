@@ -34,11 +34,11 @@ class MqttHelper {
     }
 
     handleMessage(topic, message) {
-        console.log('mqttClient message', topic, message.toString());
+        //console.log('mqttClient message', topic, message.toString());
     }
 
     publish(topic, message) {
-        console.log('mqttClient publish', topic, message);
+        //console.log('mqttClient publish', topic, message);
         this.mqttClient.publish(topic, message, this.mqttMessageOpts);
     }
 }

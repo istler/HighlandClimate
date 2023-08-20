@@ -27,6 +27,7 @@ class BuildingClimate {
      */
     mapHostToRoom(host, room, topic) {
         this._store[host] = { room, topic };
+        console.log(this._store[host]);
     }
 
     setClimate(host, climate) {
@@ -48,6 +49,20 @@ class BuildingClimate {
 
     getRooms() {
         return Object.values(this._store).map(climate => climate.room);
+    }
+
+    getRoom(host) {
+        const wrappers = Object.values(this._store).filter(wrapper => {
+            // console.log("wrapper.climate.host", wrapper.climate.host, "host", host);
+            return wrapper.climate.host == host;
+        });
+        const rooms = Object.values(wrappers).map(wrapper => wrapper.room);
+        if (rooms.length == 0 ) {
+            return null;
+        } else if (rooms.length == 1 ) {
+            return rooms[0];
+        }
+        return rooms.join(",");
     }
 
     getClimate(host) {

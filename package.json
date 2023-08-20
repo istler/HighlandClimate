@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "express": "^4.18.2",
     "gree-hvac-client": "file:../gree-hvac-client",
-    "mqtt": "^4.3.7"
+    "mqtt": "^4.3.7",
+    "source-map-support": "^0.5.21"
   }
 }
