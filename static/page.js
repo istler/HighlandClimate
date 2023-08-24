@@ -1,5 +1,11 @@
 console.log("this is my page");
 
+const fetchLinkTarget = function(e) {
+    fetch(e.target.href);
+    e.preventDefault();
+    return false;
+}
+
 const makeTableCell = function(val) {
     const cell = document.createElement("td");
     cell.innerHTML = val;
@@ -10,6 +16,7 @@ const makeLinkCell = function(url, text) {
     const cell = document.createElement("td");
     const lightOnLink = document.createElement('a');
     lightOnLink.setAttribute("href", url);
+    lightOnLink.setAttribute("class", "no-nav");
     lightOnLink.innerHTML = text;
     cell.appendChild(lightOnLink);
     return cell;
@@ -54,8 +61,14 @@ const loadClientTable = function(clientTable) {
         makeClientTableHeader(clientTable);
         res.json().then( (hosts) => {
             hosts.forEach( tempHost => makeClientRow(clientTable, tempHost));
+        }).then( () => {
+            const elements = document.getElementsByClassName('no-nav');
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].addEventListener('click', fetchLinkTarget);
+            }
         });
     });
+
 }
 
 window.addEventListener('load', function () {

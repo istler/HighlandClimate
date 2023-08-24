@@ -17,8 +17,9 @@ climates.mapHostToRoom("192.168.1.51", "guest", "home/climate/guest");
 climates.mapHostToRoom("192.168.1.52", "bedroom", "home/climate/bedroom");
 climates.mapHostToRoom("192.168.1.53", "dining", "home/climate/dining");
 climates.mapHostToRoom("192.168.1.54", "irina", "home/climate/irina");
-// climates.mapHostToRoom("192.168.1.58", "living", "home/climate/living"); //?
 climates.mapHostToRoom("192.168.1.64", "attic", "home/climate/attic"); //
+climates.mapHostToRoom("192.168.1.61", "living", "home/climate/living"); //?
+
 
 const hosts = climates.getHosts();
 
@@ -83,10 +84,11 @@ setInterval(() => {
         const climate = climates.getClimate(host);
         if (climate) {
             climate.host = host;
+            climate.room = climates.getRoom(host);
         } else {
             console.error("No climate for", host);
         }
         data.push(climate);
     });
     console.table(data);
-}, 60000);
+}, 90000);
