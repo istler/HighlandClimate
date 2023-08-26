@@ -1,4 +1,4 @@
-const Gree = require('gree-hvac-client');
+const Gree = require('@istler/gree-hvac-client');
 const express = require('express');
 const bodyParser = require("body-parser");
 var path = require('path');

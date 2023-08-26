@@ -1,7 +1,7 @@
 
 //const Gree = require ('../../src/client.js');
 require('source-map-support').install();
-const Gree = require ('gree-hvac-client');
+const Gree = require ('@istler/gree-hvac-client');
 const BuildingClimate = require ('./building-climate.js');
 const WebClient = require('./web.js');
 const mqttHelper = require('./mqtt-helper.js');
@@ -19,7 +19,6 @@ climates.mapHostToRoom("192.168.1.53", "dining", "home/climate/dining");
 climates.mapHostToRoom("192.168.1.54", "irina", "home/climate/irina");
 climates.mapHostToRoom("192.168.1.64", "attic", "home/climate/attic"); //
 climates.mapHostToRoom("192.168.1.61", "living", "home/climate/living"); //?
-
 
 const hosts = climates.getHosts();
 
@@ -60,7 +59,7 @@ clients.forEach(client => {
 
 
 clientUpdate = function(hostName, updatedProperties, properties) {
-    //console.log("updated", updatedProperties, "for", hostName);
+    // console.log("updated", updatedProperties, "for", hostName);
     const climate = {
         power: properties.power,
         mode: properties.mode,
