@@ -106,7 +106,7 @@ class Web {
            res.send(req.params);
         });
 
-        this.router.listen(3000, () => {
+        this.router.listen(4000, () => {
             console.log('Web is running');
         });
 
