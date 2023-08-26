@@ -11,9 +11,9 @@
   "author": "Keith Istler",
   "license": "ISC",
   "dependencies": {
+    "@istler/gree-hvac-client": "latest",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
-    "@istler/gree-hvac-client": "latest",
     "mqtt": "^4.3.7",
     "source-map-support": "^0.5.21"
   },
@@ -27,5 +27,4 @@
     "type": "git",
     "url": "https://github.com/istler/HighlandClimate.git"
   }
-
 }
