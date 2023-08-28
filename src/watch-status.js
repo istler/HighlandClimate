@@ -6,9 +6,19 @@ const BuildingClimate = require ('./building-climate.js');
 const WebClient = require('./web.js');
 const mqttHelper = require('./mqtt-helper.js');
 
-const mqttHost = 'localhost';
+const {
+    MQTT_PORT,
+    MQTT_HOST,
+    WATCH_POLL_TIMEOUT
+  } = process.env;
+
+  console.log("!!! MQTT_HOST", MQTT_HOST);
+  console.log("!!! MQTT_PORT", MQTT_PORT);
+  console.log("!!! WATCH_POLL_TIMEOUT", WATCH_POLL_TIMEOUT);
+
+const mqttHost = process.env.MQTT_HOST;
 // const mqttHost = '192.168.1.230';
-const url = 'mqtt://' + mqttHost + ':1883/mqtt';
+const url = 'mqtt://' + mqttHost + ':' + process.env.MQTT_PORT + '/mqtt';
 console.log("url", url);
 
 const climates = new BuildingClimate.BuildingClimate();
@@ -90,4 +100,4 @@ setInterval(() => {
         data.push(climate);
     });
     console.table(data);
-}, 90000);
+}, WATCH_POLL_TIMEOUT);

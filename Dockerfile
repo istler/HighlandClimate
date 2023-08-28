@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:18-alpine
 
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
@@ -9,7 +9,7 @@ COPY .npmrc ./
 
 USER node
 
-RUN npm install
+RUN npm ci
 
 COPY --chown=node:node . .
 

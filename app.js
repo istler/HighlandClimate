@@ -1,6 +1,3 @@
-const port = process.env.PORT || 8080;
+const port = process.env.MQTT_PORT || 8080;
 
-
-app.listen(port, function () {
-  console.log(`Example app listening on ${port}!`);
-});
+console.log(`Example app listening on ${port}!`);

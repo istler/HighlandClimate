@@ -12,14 +12,17 @@ services:
     environment:
       - MQTT_HOST=$MQTT_HOST
       - MQTT_PORT=$MQTT_PORT
+      - WATCH_POLL_TIMEOUT=$WATCH_POLL_TIMEOUT
     ports:
       - "4000:4000"
+      - "7000:7000/udp"
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
     networks:
       - app-network
-    command: /home/node/app/node_modules/.bin/nodemon app.js
+    command: /home/node/app/node_modules/.bin/nodemon src/watch-status.js
+#    command: /usr/local/bin/node src/watch-status.js
 
 networks:
   app-network:
