@@ -77,7 +77,7 @@ clientUpdate = function(hostName, updatedProperties, properties) {
         temperature: properties.temperature,
         fanSpeed: properties.fanSpeed,
     };
-    // console.log("Update..", updatedProperties);
+    console.log("Update..", hostName, updatedProperties);
     climates.setClimate(hostName, climate);
     const host = climates.getHostData(hostName);
     mHelper.publish(host.topic, JSON.stringify(climate));
