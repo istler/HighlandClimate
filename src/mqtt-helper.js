@@ -38,7 +38,7 @@ class MqttHelper {
     }
 
     publish(topic, message) {
-        console.log('mqttClient publish', this.getUrl(), topic, message);
+        // console.log('mqttClient publish', this.getUrl(), topic, message);
         this.mqttClient.publish(topic, message, this.mqttMessageOpts);
     }
 }

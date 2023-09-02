@@ -22,11 +22,39 @@ const makeLinkCell = function(url, text) {
     return cell;
 }
 
+const makeFanLink = function(tempHost) {
+    const cell = makeLinkCell("http://localhost:4000/fan/" + tempHost.host, "Fan");
+    return cell;
+};
+
+const makeCoolLink = function(tempHost) {
+    const cell = makeLinkCell("http://localhost:4000/cool/" + tempHost.host, "Cool");
+    return cell;
+};
+
+const makeHeatLink = function(tempHost) {
+    const cell = makeLinkCell("http://localhost:4000/heat/" + tempHost.host, "Heat");
+    return cell;
+};
+
+const makeLightOnLink = function(tempHost) {
+    const cell = makeLinkCell("http://localhost:4000/light/on/" + tempHost.host, "On");
+    return cell;
+};
+
+const makeLightOffLink = function(tempHost) {
+    const cell = makeLinkCell("http://localhost:4000/light/off/" + tempHost.host, "Off");
+    return cell;
+};
+
 const makeClientTableHeader = function(clientTable) {
     const row = document.createElement('tr');
     row.appendChild(makeTableCell("Room"));
     row.appendChild(makeTableCell("Light On"));
     row.appendChild(makeTableCell("Light Off"));
+    row.appendChild(makeTableCell("Fan"));
+    row.appendChild(makeTableCell("Cool"));
+    row.appendChild(makeTableCell("Heat"));
     row.appendChild(makeTableCell("Power"));
     row.appendChild(makeTableCell("Mode"));
     row.appendChild(makeTableCell("Current"));
@@ -39,8 +67,11 @@ const makeClientRow = function(clientTable, tempHost) {
     const row = document.createElement('tr');
 
     row.appendChild(makeTableCell(tempHost.room));
-    row.appendChild(makeLinkCell("http://localhost:3000/light/on/" + tempHost.host, "On"));
-    row.appendChild(makeLinkCell("http://localhost:3000/light/off/" + tempHost.host, "Off"));
+    row.appendChild(makeLightOnLink(tempHost));
+    row.appendChild(makeLightOffLink(tempHost));
+    row.appendChild(makeFanLink(tempHost));
+    row.appendChild(makeCoolLink(tempHost));
+    row.appendChild(makeHeatLink(tempHost));
     row.appendChild(makeTableCell(tempHost.power));
     row.appendChild(makeTableCell(tempHost.mode));
     row.appendChild(makeTableCell(tempHost.currentTemperature));
@@ -50,7 +81,6 @@ const makeClientRow = function(clientTable, tempHost) {
 }
 
 const loadClientTable = function(clientTable) {
-    console.log(clientTable.firstElementChild);
     while(clientTable.firstElementChild) {
         clientTable.removeChild(clientTable.firstElementChild);
     }

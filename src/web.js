@@ -61,6 +61,66 @@ class Web {
             });
         });
 
+        // add route to turn on cool air
+        this.router.get('/cool/:host', (req, res) => {
+            console.log('Web Cool', req.url);
+            this._options.clients.forEach(client => {
+                const thisClient = client;
+                if (req.params.host && req.params.host == client._options.host) {
+                    console.log('cool air', thisClient._options.host);
+                    const properties = {
+                        power: Gree.VALUE.power.on,
+                        mode: Gree.VALUE.mode.cool,
+                        fanSpeed: Gree.VALUE.fanSpeed.auto,
+                        temperature: 22
+                    };
+                    thisClient.setProperties(properties)
+                    .catch(error => console.error(error));
+                }
+            });
+            res.json({
+                success: req.params.host
+            });
+        });
+
+        // add route to turn on heat air
+        this.router.get('/heat/:host', (req, res) => {
+            console.log('Web Heat', req.url);
+            this._options.clients.forEach(client => {
+                const thisClient = client;
+                if (req.params.host && req.params.host == client._options.host) {
+                    console.log('heat air', thisClient._options.host);
+                    thisClient.setProperty(Gree.PROPERTY.power, Gree.VALUE.power.on);
+                    thisClient.setProperty(Gree.PROPERTY.mode, Gree.VALUE.mode.heat);
+                    thisClient.setProperty(Gree.PROPERTY.fanSpeed, Gree.VALUE.fanSpeed.auto);
+                    thisClient.setProperty(Gree.PROPERTY.temperature, 23);
+                }
+            });
+            res.json({
+                success: req.params.host
+            });
+        });
+
+        this.router.get('/fan/:host', (req, res) => {
+            console.log('Web Fan', req.url);
+            this._options.clients.forEach(client => {
+                const thisClient = client;
+                if (req.params.host && req.params.host == client._options.host) {
+                    console.log('fan', thisClient._options.host);
+                    const properties = {
+                        power: Gree.VALUE.power.on,
+                        mode: Gree.VALUE.mode.fan_only,
+                        fanSpeed: Gree.VALUE.fanSpeed.mediumHigh
+                    };
+                    thisClient.setProperties(properties)
+                    .catch(error => console.error(error));
+                }
+            });
+            res.json({
+                success: req.params.host
+            });
+        });
+
         this.router.get('*', (req, res) => {
             console.log(req.method, req.originalUrl);
 
@@ -72,35 +132,6 @@ class Web {
             res.sendFile(path.resolve("static/" + file));
         });
 
-        // add route to turn on cool air
-        this.router.get('/cool/:host', (req, res) => {a
-            console.log('Web Cool', req.url);
-            this._options.clients.forEach(client => {
-                const thisClient = client;
-                if (req.params.host && req.params.host == client._options.host) {
-                    console.log('cool air', thisClient._options.host);
-                    thisClient.setProperty(Gree.PROPERTY.lights, Gree.VALUE.lights.on);
-                    // thisClient.setProperty(Gree.PROPERTY.mode, Gree.VALUE.mode.cool);
-                }
-            });
-            res.json({
-                success: req.params.host
-            });
-        });
-
-        this.router.get('/fan/:host', (req, res) => {
-            console.log('Web Cool', req.url);
-            this._options.clients.forEach(client => {
-                const thisClient = client;
-                if (req.params.host && req.params.host == client._options.host) {
-                    console.log('fan', thisClient._options.host);
-                    thisClient.setProperty(Gree.PROPERTY.cool, Gree.VALUE.mode.fan_only);
-                }
-            });
-            res.json({
-                success: req.params.host
-            });
-        });
 
         this.router.get('/user/:id', (req, res) => {
            res.send(req.params);
@@ -117,8 +148,6 @@ class Web {
 
         // this.router.use(express.static(__dirname + "/static"));
         this.router.use(bodyParser.urlencoded({ extended: true }))
-
-
     }
 
 };

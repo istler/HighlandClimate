@@ -16,9 +16,12 @@ const {
   console.log("!!! MQTT_PORT", MQTT_PORT);
   console.log("!!! WATCH_POLL_TIMEOUT", WATCH_POLL_TIMEOUT);
 
-const mqttHost = process.env.MQTT_HOST;
+const poll_interval = WATCH_POLL_TIMEOUT || 10000;
+const mosquito_port = process.env.MQTT_PORT || 1883;
+
+const mqttHost = process.env.MQTT_HOST || "localhost";
 // const mqttHost = '192.168.1.230';
-const url = 'mqtt://' + mqttHost + ':' + process.env.MQTT_PORT + '/mqtt';
+const url = 'mqtt://' + mqttHost + ':' + mosquito_port + '/mqtt';
 console.log("url", url);
 
 const climates = new BuildingClimate.BuildingClimate();
@@ -67,7 +70,6 @@ clients.forEach(client => {
     });
 });
 
-
 clientUpdate = function(hostName, updatedProperties, properties) {
     // console.log("updated", updatedProperties, "for", hostName);
     const climate = {
@@ -77,7 +79,7 @@ clientUpdate = function(hostName, updatedProperties, properties) {
         temperature: properties.temperature,
         fanSpeed: properties.fanSpeed,
     };
-    console.log("Update..", hostName, updatedProperties);
+    // console.log("Update..", hostName, updatedProperties);
     climates.setClimate(hostName, climate);
     const host = climates.getHostData(hostName);
     mHelper.publish(host.topic, JSON.stringify(climate));
@@ -100,4 +102,4 @@ setInterval(() => {
         data.push(climate);
     });
     console.table(data);
-}, WATCH_POLL_TIMEOUT);
+}, poll_interval);
