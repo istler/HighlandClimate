@@ -61,6 +61,23 @@ class Web {
             });
         });
 
+        this.router.get('/power/:host/:state', (req, res) => {
+            console.log('Power update', req.params.host, req.params.state);
+            this._options.clients.forEach(client => {
+                const thisClient = client;
+                if (req.params.host && req.params.host == client._options.host) {
+                    var state = Gree.VALUE.power.off;
+                    if (req.params.state == 'on') {
+                        state = Gree.VALUE.power.on;
+                    }
+                    thisClient.setProperty(Gree.PROPERTY.power, state);
+                }
+            });
+            res.json({
+                success: req.params.host
+            });
+        });
+
         // add route to turn on cool air
         this.router.get('/cool/:host', (req, res) => {
             console.log('Web Cool', req.url);
