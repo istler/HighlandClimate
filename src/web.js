@@ -101,16 +101,20 @@ class Web {
         });
 
         // add route to turn on heat air
-        this.router.get('/heat/:host', (req, res) => {
+        this.router.get('/heat/:host/:value', (req, res) => {
             console.log('Web Heat', req.url);
             this._options.clients.forEach(client => {
                 const thisClient = client;
-                if (req.params.host && req.params.host == client._options.host) {
-                    console.log('heat air', thisClient._options.host);
-                    thisClient.setProperty(Gree.PROPERTY.power, Gree.VALUE.power.on);
-                    thisClient.setProperty(Gree.PROPERTY.mode, Gree.VALUE.mode.heat);
-                    thisClient.setProperty(Gree.PROPERTY.fanSpeed, Gree.VALUE.fanSpeed.auto);
-                    thisClient.setProperty(Gree.PROPERTY.temperature, 23);
+                const heatHost = req.params.host;
+                if (heatHost && req.params.value && heatHost == client._options.host) {
+                    console.log('heat air', thisClient._options.host, req.params.value);
+                    const properties = {
+                        power: Gree.VALUE.power.on,
+                        mode: Gree.VALUE.mode.heat,
+                        fanSpeed: Gree.VALUE.fanSpeed.auto,
+                        temperature: req.params.value + ""
+                    };
+                    thisClient.setProperties(properties)
                 }
             });
             res.json({
