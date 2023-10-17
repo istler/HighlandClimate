@@ -53,8 +53,8 @@ const makeCoolLink = function(tempHost) {
     return cell;
 };
 
-const makeHeatLink = function(tempHost) {
-    const cell = makeLinkCell(baseUrl + "/heat/" + tempHost.host, "Heat");
+const makeHeatLink = function(tempHost, value) {
+    const cell = makeLinkCell(baseUrl + "/heat/" + tempHost.host + "/" + value, "Heat");
     return cell;
 };
 
@@ -76,7 +76,11 @@ const makeClientTableHeader = function(clientTable) {
     row.appendChild(makeTableCell("Light Off"));
     row.appendChild(makeTableCell("Fan"));
     row.appendChild(makeTableCell("Cool"));
-    row.appendChild(makeTableCell("Heat"));
+    row.appendChild(makeTableCell("Heat 17"));
+    row.appendChild(makeTableCell("Heat 18"));
+    row.appendChild(makeTableCell("Heat 19"));
+    row.appendChild(makeTableCell("Heat 20"));
+    row.appendChild(makeTableCell("Heat 21"));
     row.appendChild(makeTableCell("Mode"));
     row.appendChild(makeTableCell("Current"));
     row.appendChild(makeTableCell("Target"));
@@ -93,7 +97,11 @@ const makeClientRow = function(clientTable, tempHost) {
     row.appendChild(makeLightOffLink(tempHost));
     row.appendChild(makeFanLink(tempHost));
     row.appendChild(makeCoolLink(tempHost));
-    row.appendChild(makeHeatLink(tempHost));
+    row.appendChild(makeHeatLink(tempHost, 17));
+    row.appendChild(makeHeatLink(tempHost, 18));
+    row.appendChild(makeHeatLink(tempHost, 19));
+    row.appendChild(makeHeatLink(tempHost, 20));
+    row.appendChild(makeHeatLink(tempHost, 21));
     row.appendChild(makeTableCell(tempHost.mode));
     row.appendChild(makeTableCell(tempHost.currentTemperature));
     row.appendChild(makeTableCell(tempHost.temperature));
